@@ -80,28 +80,32 @@ export async function getTodayData(gym: GymType): Promise<TodayPageData> {
     }
   }
 
-  // 1. Fetch today's session
-  const { data: sessionData } = await supabase
-    .from('sessions')
-    .select('*')
-    .eq('user_id', user.id)
-    .eq('session_date', todayStr)
-    .maybeSingle()
+  // 1. Fetch today's session, exercises, and weigh-in records concurrently (async-parallel)
+  const [sessionRes, exercisesRes, bodyWeightsRes] = await Promise.all([
+    supabase
+      .from('sessions')
+      .select('*')
+      .eq('user_id', user.id)
+      .eq('session_date', todayStr)
+      .maybeSingle(),
+    supabase
+      .from('exercises')
+      .select('*')
+      .eq('user_id', user.id)
+      .eq('gym', gym)
+      .eq('is_archived', false)
+      .order('sort_order', { ascending: true }),
+    supabase
+      .from('body_weights')
+      .select('measured_on')
+      .eq('user_id', user.id),
+  ])
 
-  const session = sessionData as SessionRow | null
+  const session = sessionRes.data as SessionRow | null
   const otherGymSession =
     session && (session.gym as GymType) !== gym ? (session.gym as GymType) : null
 
-  // 2. Fetch exercises for this gym
-  const { data: exercisesData } = await supabase
-    .from('exercises')
-    .select('*')
-    .eq('user_id', user.id)
-    .eq('gym', gym)
-    .eq('is_archived', false)
-    .order('sort_order', { ascending: true })
-
-  const rawExercises = (exercisesData as ExerciseRow[] | null) ?? []
+  const rawExercises = (exercisesRes.data as ExerciseRow[] | null) ?? []
 
   // If user has not seeded exercises yet, use default catalog
   const exerciseList: CatalogExercise[] =
@@ -123,25 +127,25 @@ export async function getTodayData(gym: GymType): Promise<TodayPageData> {
         }))
       : DEFAULT_EXERCISES.filter((e) => e.gym === gym)
 
-  // 3. Fetch today's sets if a session exists
+  // 2. Fetch today's sets and cardio concurrently if session exists
   let todaySets: SetRow[] = []
   let cardioLogs: CardioRow[] = []
 
   if (session) {
-    const { data: setsData } = await supabase
-      .from('sets')
-      .select('*')
-      .eq('session_id', session.id)
+    const [setsRes, cardioRes] = await Promise.all([
+      supabase
+        .from('sets')
+        .select('*')
+        .eq('session_id', session.id),
+      supabase
+        .from('cardio_logs')
+        .select('*')
+        .eq('session_id', session.id)
+        .order('created_at', { ascending: false }),
+    ])
 
-    todaySets = (setsData as SetRow[] | null) ?? []
-
-    const { data: cardioData } = await supabase
-      .from('cardio_logs')
-      .select('*')
-      .eq('session_id', session.id)
-      .order('created_at', { ascending: false })
-
-    cardioLogs = (cardioData as CardioRow[] | null) ?? []
+    todaySets = (setsRes.data as SetRow[] | null) ?? []
+    cardioLogs = (cardioRes.data as CardioRow[] | null) ?? []
   }
 
   // 4. Fetch last performances for exercises (from previous sessions)
@@ -211,12 +215,7 @@ export async function getTodayData(gym: GymType): Promise<TodayPageData> {
   }
 
   // Calculate weigh-in prompt due status
-  const { data: bodyWeights } = await supabase
-    .from('body_weights')
-    .select('measured_on')
-    .eq('user_id', user.id)
-
-  const loggedDates = (bodyWeights || []).map((b) => b.measured_on)
+  const loggedDates = (bodyWeightsRes.data || []).map((b) => b.measured_on)
   const currentPeriodKey = getPeriodKey(todayStr)
   const currentPeriodInfo = getPeriodInfo(currentPeriodKey)
   const weighInDue = isWeighInDue(todayStr, loggedDates)

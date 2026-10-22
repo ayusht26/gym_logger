@@ -193,21 +193,24 @@ export async function getSessionDetailData(
 
   if (!session) return null
 
-  // 2. Fetch sets with exercises
-  const { data: sets } = await supabase
-    .from('sets')
-    .select('*, exercises!inner(*)')
-    .eq('session_id', sessionId)
-    .eq('user_id', user.id)
-    .order('set_number', { ascending: true })
+  // Fetch sets with exercises and cardio logs concurrently (async-parallel)
+  const [setsRes, cardioRes] = await Promise.all([
+    supabase
+      .from('sets')
+      .select('*, exercises!inner(*)')
+      .eq('session_id', sessionId)
+      .eq('user_id', user.id)
+      .order('set_number', { ascending: true }),
+    supabase
+      .from('cardio_logs')
+      .select('*')
+      .eq('session_id', sessionId)
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: true }),
+  ])
 
-  // 3. Fetch cardio logs
-  const { data: cardioLogs } = await supabase
-    .from('cardio_logs')
-    .select('*')
-    .eq('session_id', sessionId)
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: true })
+  const sets = setsRes.data
+  const cardioLogs = cardioRes.data
 
   // Group sets by exercise
   const exerciseMap = new Map<string, { exercise: ExerciseRow; sets: SetRow[]; volumeKg: number }>()

@@ -142,15 +142,27 @@ export async function getExerciseLogData(exerciseId: string): Promise<ExerciseLo
     }
   }
 
-  // 1. Fetch today's session
-  const { data: todaySession } = await supabase
-    .from('sessions')
-    .select('*')
-    .eq('user_id', user.id)
-    .eq('session_date', todayStr)
-    .maybeSingle()
+  // Fetch today's session and prior sets concurrently (async-parallel)
+  const [todaySessionRes, allPriorSetsRes] = await Promise.all([
+    supabase
+      .from('sessions')
+      .select('*')
+      .eq('user_id', user.id)
+      .eq('session_date', todayStr)
+      .maybeSingle(),
+    supabase
+      .from('sets')
+      .select('*, sessions!inner(session_date)')
+      .eq('user_id', user.id)
+      .eq('exercise_id', exercise.id)
+      .lt('sessions.session_date', todayStr)
+      .order('created_at', { ascending: true }),
+  ])
 
-  // 2. Fetch today's sets for this exercise
+  const todaySession = todaySessionRes.data
+  const allPriorSets = allPriorSetsRes.data
+
+  // Fetch today's sets for this exercise if session exists
   let rawTodaySets: SetRow[] = []
   if (todaySession) {
     const { data: sets } = await supabase
@@ -163,15 +175,6 @@ export async function getExerciseLogData(exerciseId: string): Promise<ExerciseLo
 
     if (sets) rawTodaySets = sets
   }
-
-  // 3. Fetch prior sets for this exercise to evaluate PRs and find previous session
-  const { data: allPriorSets } = await supabase
-    .from('sets')
-    .select('*, sessions!inner(session_date)')
-    .eq('user_id', user.id)
-    .eq('exercise_id', exercise.id)
-    .lt('sessions.session_date', todayStr)
-    .order('created_at', { ascending: true })
 
   const priorSetsList: LoggedSetData[] = (allPriorSets || []).map((s) => ({
     id: s.id,

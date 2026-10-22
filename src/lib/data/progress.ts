@@ -93,14 +93,26 @@ export async function getProgressPageData(): Promise<ProgressPageData> {
     }
   }
 
-  // 1. Fetch exercises
-  const { data: exercisesData } = await supabase
-    .from('exercises')
-    .select('id, name, slug, canonical_slug, gym, muscle_group, machine_model')
-    .eq('user_id', user.id)
-    .order('name', { ascending: true })
+  // Fetch exercises, sets with sessions, and cardio logs concurrently (async-parallel)
+  const [exercisesRes, setsRes, cardioRes] = await Promise.all([
+    supabase
+      .from('exercises')
+      .select('id, name, slug, canonical_slug, gym, muscle_group, machine_model')
+      .eq('user_id', user.id)
+      .order('name', { ascending: true }),
+    supabase
+      .from('sets')
+      .select('*, sessions!inner(session_date, gym)')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: true }),
+    supabase
+      .from('cardio_logs')
+      .select('*, sessions!inner(session_date)')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false }),
+  ])
 
-  let exercises: ExerciseOption[] = (exercisesData || []).map((e) => ({
+  let exercises: ExerciseOption[] = (exercisesRes.data || []).map((e) => ({
     id: e.id,
     name: e.name,
     slug: e.slug,
@@ -122,27 +134,13 @@ export async function getProgressPageData(): Promise<ProgressPageData> {
     }))
   }
 
-  // 2. Fetch all sets with sessions
-  const { data: setsData } = await supabase
-    .from('sets')
-    .select('*, sessions!inner(session_date, gym)')
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: true })
-
-  const allSets = (setsData || []).map((s) => ({
+  const allSets = (setsRes.data || []).map((s) => ({
     ...s,
     session_date: (s.sessions as unknown as { session_date: string }).session_date,
     gym: (s.sessions as unknown as { gym: string }).gym,
   }))
 
-  // 3. Fetch cardio logs with sessions
-  const { data: cardioData } = await supabase
-    .from('cardio_logs')
-    .select('*, sessions!inner(session_date)')
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: false })
-
-  const cardioEntries: CardioEntryItem[] = (cardioData || []).map((c) => {
+  const cardioEntries: CardioEntryItem[] = (cardioRes.data || []).map((c) => {
     const sessionDate = (c.sessions as unknown as { session_date: string }).session_date
     const dist = Math.round((c.duration_min * c.speed_kmh / 60) * 100) / 100
     return {

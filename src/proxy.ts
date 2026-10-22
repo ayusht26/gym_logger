@@ -16,6 +16,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * - machines/ (machine images)
      */
-    '/((?!_next/static|_next/image|favicon.ico|machines/|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!_next/static|_next/image|favicon.ico|machines/|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|webmanifest)$).*)',
   ],
 }
