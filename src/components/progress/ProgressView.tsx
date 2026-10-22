@@ -21,6 +21,7 @@ import {
 } from 'lucide-react'
 import clsx from 'clsx'
 import { useIsMounted } from '@/lib/use-mounted'
+import { useTheme } from '@/components/theme/ThemeProvider'
 import type {
   ExerciseOption,
   ProgressMetric,
@@ -59,6 +60,8 @@ export function ProgressView({
   cardioRecent,
 }: ProgressViewProps) {
   const mounted = useIsMounted()
+  const { resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === 'dark'
   const [mainTab, setMainTab] = useState<'lifting' | 'cardio'>('lifting')
 
   // Selected exercise (default to first exercise with logged sets, or first in list)
@@ -232,7 +235,7 @@ export function ProgressView({
             className={clsx(
               'flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold transition-all',
               mainTab === 'lifting'
-                ? 'bg-ink text-white shadow-xs'
+                ? 'bg-ink text-white dark:bg-white dark:text-black shadow-xs'
                 : 'text-secondary hover:text-ink'
             )}
           >
@@ -245,7 +248,7 @@ export function ProgressView({
             className={clsx(
               'flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold transition-all',
               mainTab === 'cardio'
-                ? 'bg-ink text-white shadow-xs'
+                ? 'bg-ink text-white dark:bg-white dark:text-black shadow-xs'
                 : 'text-secondary hover:text-ink'
             )}
           >
@@ -306,7 +309,7 @@ export function ProgressView({
                   className={clsx(
                     'rounded-full px-3.5 py-1.5 text-xs font-bold transition-all active:scale-95',
                     metric === m.key
-                      ? 'bg-ink text-white shadow-xs'
+                      ? 'bg-ink text-white dark:bg-white dark:text-black shadow-xs'
                       : 'border border-hairline bg-canvas text-secondary hover:text-ink hover:bg-surface-soft'
                   )}
                 >
@@ -325,7 +328,7 @@ export function ProgressView({
                   className={clsx(
                     'rounded-full px-2.5 py-1 text-xs font-bold transition-all',
                     range === r
-                      ? 'bg-ink text-white shadow-xs'
+                      ? 'bg-ink text-white dark:bg-white dark:text-black shadow-xs'
                       : 'text-secondary hover:text-ink'
                   )}
                 >
@@ -368,16 +371,16 @@ export function ProgressView({
               ) : mounted ? (
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                    <CartesianGrid stroke="#e5e7eb" strokeDasharray="3 3" vertical={false} />
+                    <CartesianGrid stroke={isDark ? '#222834' : '#e5e7eb'} strokeDasharray="3 3" vertical={false} />
                     <XAxis
                       dataKey="formattedDate"
-                      stroke="#86909c"
+                      stroke={isDark ? '#94a3b8' : '#86909c'}
                       fontSize={11}
                       tickLine={false}
                       axisLine={false}
                     />
                     <YAxis
-                      stroke="#86909c"
+                      stroke={isDark ? '#94a3b8' : '#86909c'}
                       fontSize={11}
                       tickLine={false}
                       axisLine={false}
@@ -388,7 +391,7 @@ export function ProgressView({
                         if (active && payload && payload.length) {
                           const pt = payload[0].payload
                           return (
-                            <div className="rounded-xl border border-hairline bg-ink px-3 py-2 text-white shadow-md">
+                            <div className="rounded-xl border border-hairline bg-ink px-3 py-2 text-white dark:bg-[#141720] shadow-md">
                               <p className="text-[10px] font-semibold text-neutral-300">
                                 {pt.formattedDate}
                               </p>
@@ -397,7 +400,7 @@ export function ProgressView({
                                   {pt.value} {METRICS.find((m) => m.key === metric)?.unit}
                                 </span>
                                 {pt.isPr && (
-                                  <span className="rounded bg-mint px-1.5 py-0.2 text-[10px] font-black text-ink">
+                                  <span className="rounded bg-mint px-1.5 py-0.2 text-[10px] font-black text-black">
                                     PR
                                   </span>
                                 )}
@@ -411,7 +414,7 @@ export function ProgressView({
                     <Line
                       type="monotone"
                       dataKey="value"
-                      stroke="#000000"
+                      stroke={isDark ? '#00f0a0' : '#000000'}
                       strokeWidth={2.5}
                       dot={(props) => {
                         const { cx, cy, payload } = props
@@ -422,15 +425,15 @@ export function ProgressView({
                             cx={cx}
                             cy={cy}
                             r={isPr ? 6 : 4.5}
-                            fill={isPr ? '#00f0a0' : '#ffffff'}
-                            stroke="#000000"
+                            fill={isPr ? '#00f0a0' : isDark ? '#141720' : '#ffffff'}
+                            stroke={isDark ? (isPr ? '#090a0f' : '#00f0a0') : '#000000'}
                             strokeWidth={isPr ? 2.5 : 2}
                           />
                         )
                       }}
                       activeDot={{
                         fill: '#00f0a0',
-                        stroke: '#000000',
+                        stroke: isDark ? '#090a0f' : '#000000',
                         strokeWidth: 2.5,
                         r: 7,
                       }}
@@ -542,16 +545,16 @@ export function ProgressView({
               ) : mounted ? (
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={cardioWeekly} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                    <CartesianGrid stroke="#e5e7eb" strokeDasharray="3 3" vertical={false} />
+                    <CartesianGrid stroke={isDark ? '#222834' : '#e5e7eb'} strokeDasharray="3 3" vertical={false} />
                     <XAxis
                       dataKey="weekLabel"
-                      stroke="#86909c"
+                      stroke={isDark ? '#94a3b8' : '#86909c'}
                       fontSize={11}
                       tickLine={false}
                       axisLine={false}
                     />
                     <YAxis
-                      stroke="#86909c"
+                      stroke={isDark ? '#94a3b8' : '#86909c'}
                       fontSize={11}
                       tickLine={false}
                       axisLine={false}
@@ -562,7 +565,7 @@ export function ProgressView({
                         if (active && payload && payload.length) {
                           const d = payload[0].payload
                           return (
-                            <div className="rounded-xl border border-hairline bg-ink px-3 py-2 text-white shadow-md">
+                            <div className="rounded-xl border border-hairline bg-ink px-3 py-2 text-white dark:bg-[#141720] shadow-md">
                               <p className="text-[10px] text-neutral-300">{d.weekLabel}</p>
                               <p className="font-heading text-sm font-bold text-mint">
                                 {d.totalMinutes} minutes
@@ -576,7 +579,7 @@ export function ProgressView({
                         return null
                       }}
                     />
-                    <Bar dataKey="totalMinutes" fill="#00f0a0" stroke="#000000" strokeWidth={1.5} radius={[6, 6, 0, 0]} />
+                    <Bar dataKey="totalMinutes" fill="#00f0a0" stroke={isDark ? '#00f0a0' : '#000000'} strokeWidth={1.5} radius={[6, 6, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               ) : null}

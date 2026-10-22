@@ -34,8 +34,8 @@ export function GymSwitch({ currentGym }: GymSwitchProps) {
         className={clsx(
           'flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs sm:text-sm font-semibold transition-all cursor-pointer min-h-[32px]',
           currentGym === 'home'
-            ? 'bg-ink text-white shadow-xs'
-            : 'text-secondary hover:text-ink hover:bg-white/60'
+            ? 'bg-ink text-white dark:bg-white dark:text-black shadow-xs'
+            : 'text-secondary hover:text-ink hover:bg-canvas/80'
         )}
       >
         <Home className="h-3.5 w-3.5" />
@@ -51,8 +51,8 @@ export function GymSwitch({ currentGym }: GymSwitchProps) {
         className={clsx(
           'flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs sm:text-sm font-semibold transition-all cursor-pointer min-h-[32px]',
           currentGym === 'college'
-            ? 'bg-ink text-white shadow-xs'
-            : 'text-secondary hover:text-ink hover:bg-white/60'
+            ? 'bg-ink text-white dark:bg-white dark:text-black shadow-xs'
+            : 'text-secondary hover:text-ink hover:bg-canvas/80'
         )}
       >
         <GraduationCap className="h-3.5 w-3.5" />

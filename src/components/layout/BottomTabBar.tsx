@@ -18,7 +18,7 @@ export function BottomTabBar() {
   return (
     <nav
       aria-label="Mobile Navigation"
-      className="md:hidden fixed bottom-0 left-0 right-0 z-40 border-t border-hairline bg-white/95 backdrop-blur-md pb-safe"
+      className="md:hidden fixed bottom-0 left-0 right-0 z-40 border-t border-hairline bg-canvas/95 backdrop-blur-md pb-safe"
     >
       <div className="flex h-14 items-center justify-around px-2">
         {TABS.map((tab) => {

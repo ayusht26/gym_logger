@@ -23,7 +23,7 @@ export function HistoryList({ data }: HistoryListProps) {
         </p>
         <Link
           href="/"
-          className="mt-6 inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 text-sm font-bold text-white shadow-xs transition-opacity hover:opacity-90 active:scale-95"
+          className="mt-6 inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 text-sm font-bold text-white dark:bg-white dark:text-black dark:hover:bg-neutral-200 shadow-xs transition-all hover:bg-neutral-800 active:scale-95"
         >
           <span>Start today’s workout</span>
         </Link>
@@ -125,7 +125,7 @@ export function HistoryList({ data }: HistoryListProps) {
                     )}
                   </div>
 
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-surface-soft text-secondary group-hover:bg-ink group-hover:text-white transition-colors">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-surface-soft text-secondary group-hover:bg-ink group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-black transition-colors">
                     <ChevronRight className="h-4 w-4" />
                   </div>
                 </div>

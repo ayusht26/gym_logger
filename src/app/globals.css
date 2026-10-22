@@ -1,15 +1,17 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-mint: #00f0a0;
   --color-primary: #00f0a0;
-  --color-ink: #000000;
-  --color-canvas: #ffffff;
-  --color-canvas-mint: #ecffe0;
-  --color-surface-soft: #f2f4f5;
-  --color-hairline: #e5e7eb;
-  --color-muted: #86909c;
-  --color-secondary: #5b6573;
+  --color-ink: var(--ink);
+  --color-canvas: var(--canvas);
+  --color-canvas-mint: var(--canvas-mint);
+  --color-surface-soft: var(--surface-soft);
+  --color-hairline: var(--hairline);
+  --color-muted: var(--muted);
+  --color-secondary: var(--secondary);
 
   --font-display: var(--font-titillium-web), sans-serif;
   --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -26,21 +28,61 @@
 :root {
   --background: #ffffff;
   --foreground: #000000;
+  --canvas: #ffffff;
+  --canvas-mint: #ecffe0;
+  --surface-soft: #f2f4f5;
+  --hairline: #e5e7eb;
+  --ink: #000000;
+  --muted: #86909c;
+  --secondary: #5b6573;
+}
+
+.dark {
+  --background: #090a0f;
+  --foreground: #f8fafc;
+  --canvas: #090a0f;
+  --canvas-mint: #0c261d;
+  --surface-soft: #141720;
+  --hairline: #222834;
+  --ink: #f8fafc;
+  --muted: #94a3b8;
+  --secondary: #a1a1aa;
+  color-scheme: dark;
 }
 
 html,
 body {
-  background-color: #ffffff;
-  color: #000000;
+  background-color: var(--canvas);
+  color: var(--ink);
   font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   min-height: 100%;
 }
 
-/* Accessible focus ring: 2px ink with 2px offset */
+/* Accessible focus ring: 2px ink with 2px offset in light, mint in dark */
 *:focus-visible {
   outline: 2px solid #000000;
   outline-offset: 2px;
+}
+
+.dark *:focus-visible {
+  outline: 2px solid #00f0a0;
+  outline-offset: 2px;
+}
+
+/* Polarity flip for primary pill buttons in dark mode */
+.dark .bg-ink.text-white {
+  color: #000000 !important;
+}
+
+.dark button.bg-ink:hover,
+.dark a.bg-ink:hover {
+  background-color: #e2e8f0 !important;
+}
+
+/* Invert calendar picker icon for date inputs in dark mode */
+.dark input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
 }
 
 /* Mobile tap ergonomics: prevent zoom on inputs by ensuring >= 16px */

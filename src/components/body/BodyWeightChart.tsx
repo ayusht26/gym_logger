@@ -13,6 +13,7 @@ import { Scale, TrendingUp } from 'lucide-react'
 import type { BodyWeightRow } from '@/lib/data/body'
 import { formatDateDisplay } from '@/lib/time'
 import { useIsMounted } from '@/lib/use-mounted'
+import { useTheme } from '@/components/theme/ThemeProvider'
 
 interface BodyWeightChartProps {
   weights: BodyWeightRow[]
@@ -20,6 +21,8 @@ interface BodyWeightChartProps {
 
 export function BodyWeightChart({ weights }: BodyWeightChartProps) {
   const mounted = useIsMounted()
+  const { resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === 'dark'
 
   if (weights.length === 0) {
     return (
@@ -60,17 +63,17 @@ export function BodyWeightChart({ weights }: BodyWeightChartProps) {
         {mounted ? (
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-              <CartesianGrid stroke="#e5e7eb" strokeDasharray="3 3" vertical={false} />
+              <CartesianGrid stroke={isDark ? '#222834' : '#e5e7eb'} strokeDasharray="3 3" vertical={false} />
               <XAxis
                 dataKey="formattedDate"
-                stroke="#86909c"
+                stroke={isDark ? '#94a3b8' : '#86909c'}
                 fontSize={11}
                 tickLine={false}
                 axisLine={false}
               />
               <YAxis
                 domain={[minWeight, maxWeight]}
-                stroke="#86909c"
+                stroke={isDark ? '#94a3b8' : '#86909c'}
                 fontSize={11}
                 tickLine={false}
                 axisLine={false}
@@ -81,7 +84,7 @@ export function BodyWeightChart({ weights }: BodyWeightChartProps) {
                   if (active && payload && payload.length) {
                     const data = payload[0].payload
                     return (
-                      <div className="rounded-xl border border-hairline bg-ink px-3 py-2 text-white shadow-md">
+                      <div className="rounded-xl border border-hairline bg-ink px-3 py-2 text-white dark:bg-[#141720] shadow-md">
                         <p className="text-[10px] font-semibold text-neutral-300">
                           {data.formattedDate}
                         </p>
@@ -97,17 +100,17 @@ export function BodyWeightChart({ weights }: BodyWeightChartProps) {
               <Line
                 type="monotone"
                 dataKey="weight"
-                stroke="#000000"
+                stroke={isDark ? '#00f0a0' : '#000000'}
                 strokeWidth={2.5}
                 dot={{
                   fill: '#00f0a0',
-                  stroke: '#000000',
+                  stroke: isDark ? '#090a0f' : '#000000',
                   strokeWidth: 2,
                   r: 4.5,
                 }}
                 activeDot={{
                   fill: '#00f0a0',
-                  stroke: '#000000',
+                  stroke: isDark ? '#090a0f' : '#000000',
                   strokeWidth: 2.5,
                   r: 6.5,
                 }}

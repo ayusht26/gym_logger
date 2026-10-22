@@ -32,11 +32,11 @@ export function OneGymBanner({ currentGym, sessionGym }: OneGymBannerProps) {
     <div
       role="region"
       aria-label="Gym session notice"
-      className="rounded-[20px] border border-amber-300 bg-amber-50/90 p-4 sm:p-5 shadow-xs"
+      className="rounded-[20px] border border-amber-300 bg-amber-50/90 dark:border-amber-900/60 dark:bg-amber-950/40 p-4 sm:p-5 shadow-xs"
     >
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex items-start gap-3">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber-800">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-200">
             <AlertCircle className="h-5 w-5 stroke-[2.5]" />
           </div>
           <div>
@@ -64,10 +64,10 @@ export function OneGymBanner({ currentGym, sessionGym }: OneGymBannerProps) {
             type="button"
             onClick={handleSwitchSession}
             disabled={isPending}
-            className="flex items-center gap-1.5 rounded-full bg-ink px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow-2xs hover:bg-neutral-800 active:scale-95 transition-all cursor-pointer min-h-[38px]"
+            className="flex items-center gap-1.5 rounded-full bg-ink px-4 py-2 text-xs sm:text-sm font-semibold text-white dark:bg-white dark:text-black dark:hover:bg-neutral-200 shadow-2xs hover:bg-neutral-800 active:scale-95 transition-all cursor-pointer min-h-[38px]"
           >
             {isPending ? (
-              <Loader2 className="h-4 w-4 animate-spin text-white" />
+              <Loader2 className="h-4 w-4 animate-spin text-white dark:text-black" />
             ) : (
               <ArrowRightLeft className="h-4 w-4 text-mint" />
             )}

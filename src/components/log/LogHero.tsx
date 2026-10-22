@@ -76,7 +76,7 @@ export function LogHero({
               {exercise.muscle_group}
             </span>
             {exercise.machine_model && (
-              <span className="inline-block rounded-md bg-ink text-white px-2 py-0.5 text-[11px] font-semibold tracking-wide">
+              <span className="inline-block rounded-md bg-ink text-white dark:bg-white dark:text-black px-2 py-0.5 text-[11px] font-semibold tracking-wide">
                 {exercise.machine_model}
               </span>
             )}

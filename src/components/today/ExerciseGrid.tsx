@@ -114,7 +114,7 @@ export function ExerciseGrid({
             className={clsx(
               'rounded-full px-3 py-1 text-xs sm:text-sm font-semibold transition-all cursor-pointer min-h-[34px]',
               selectedGroups.length === ALL_MUSCLE_GROUPS.length
-                ? 'bg-ink text-white shadow-xs'
+                ? 'bg-ink text-white dark:bg-white dark:text-black shadow-xs'
                 : 'bg-surface-soft text-secondary hover:bg-surface-soft/80 hover:text-ink'
             )}
           >
@@ -131,7 +131,7 @@ export function ExerciseGrid({
                 className={clsx(
                   'rounded-full px-3 py-1 text-xs sm:text-sm font-semibold transition-all cursor-pointer min-h-[34px]',
                   isSelected
-                    ? 'bg-ink text-white shadow-xs'
+                    ? 'bg-ink text-white dark:bg-white dark:text-black shadow-xs'
                     : 'bg-surface-soft text-secondary hover:bg-surface-soft/80 hover:text-ink'
                 )}
               >
@@ -161,7 +161,7 @@ export function ExerciseGrid({
                 setTrainAnyway(true)
                 setSelectedGroups(['back', 'biceps'])
               }}
-              className="rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-neutral-800 transition-all cursor-pointer min-h-[40px]"
+              className="rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white dark:bg-white dark:text-black dark:hover:bg-neutral-200 shadow-xs hover:bg-neutral-800 transition-all cursor-pointer min-h-[40px]"
             >
               Train anyway
             </button>
@@ -209,7 +209,7 @@ export function ExerciseGrid({
             <button
               type="button"
               onClick={handleSelectAll}
-              className="rounded-full bg-ink px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow-2xs hover:bg-neutral-800 transition-colors cursor-pointer"
+              className="rounded-full bg-ink px-4 py-2 text-xs sm:text-sm font-semibold text-white dark:bg-white dark:text-black dark:hover:bg-neutral-200 shadow-2xs hover:bg-neutral-800 transition-colors cursor-pointer"
             >
               Show all exercises
             </button>

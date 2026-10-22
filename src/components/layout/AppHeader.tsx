@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import clsx from 'clsx'
 import { GymSwitch } from './GymSwitch'
 import { SignOutButton } from './SignOutButton'
+import { ThemeToggle } from '@/components/theme/ThemeToggle'
 import type { GymType } from '@/lib/actions/gym'
 import { Settings, Play } from 'lucide-react'
 
@@ -31,7 +32,7 @@ export function AppHeader({ currentGym }: AppHeaderProps) {
             href="/"
             className="flex items-center gap-2 transition-opacity hover:opacity-90"
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-mint text-ink font-bold shadow-xs">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-mint text-black font-bold shadow-xs">
               <span className="font-display text-base font-extrabold leading-none">G</span>
             </div>
             <span className="font-display text-xl font-bold tracking-tight text-ink">
@@ -69,16 +70,19 @@ export function AppHeader({ currentGym }: AppHeaderProps) {
         </div>
 
         {/* Center / Right controls */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           {/* Gym Pill Switch */}
           <GymSwitch currentGym={currentGym} />
 
-          {/* Desktop Black Pill "Start workout" */}
+          {/* Theme Toggle Button */}
+          <ThemeToggle />
+
+          {/* Desktop Pill "Start workout" */}
           <Link
             href="/"
-            className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white shadow-xs transition-all hover:bg-neutral-800 active:scale-95 min-h-[36px]"
+            className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white dark:bg-white dark:text-black dark:hover:bg-neutral-200 shadow-xs transition-all hover:bg-neutral-800 active:scale-95 min-h-[36px]"
           >
-            <Play className="h-3.5 w-3.5 fill-white" />
+            <Play className="h-3.5 w-3.5 fill-current" />
             <span>Start workout</span>
           </Link>
 

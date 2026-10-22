@@ -81,7 +81,7 @@ export function LogSummaryStrip({ totals }: LogSummaryStripProps) {
           <button
             type="button"
             onClick={() => setShowModal(true)}
-            className="flex items-center justify-center gap-2 rounded-full border border-black bg-mint px-6 py-3 font-sans text-sm font-bold text-ink shadow-xs transition-all hover:brightness-105 active:scale-95"
+            className="flex items-center justify-center gap-2 rounded-full border border-black dark:border-mint/80 bg-mint px-6 py-3 font-sans text-sm font-bold text-black shadow-xs transition-all hover:brightness-105 active:scale-95"
           >
             <CheckCircle2 className="h-4 w-4 stroke-[2.5]" />
             <span>Finish workout</span>
@@ -93,7 +93,7 @@ export function LogSummaryStrip({ totals }: LogSummaryStripProps) {
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-xs">
           <div className="w-full max-w-sm rounded-[28px] border border-hairline bg-canvas p-6 text-center shadow-xl">
-            <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-mint text-ink shadow-xs">
+            <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-mint text-black shadow-xs">
               <Flame className="h-7 w-7 stroke-[2.5]" />
             </div>
 
@@ -120,7 +120,7 @@ export function LogSummaryStrip({ totals }: LogSummaryStripProps) {
               {totals.prCount > 0 && (
                 <div className="flex justify-between py-1 text-xs border-t border-hairline mt-1 pt-1.5 font-bold text-ink">
                   <span>PRs Set:</span>
-                  <span className="rounded bg-mint px-1.5 py-0.2 text-ink">
+                  <span className="rounded bg-mint px-1.5 py-0.2 text-black">
                     {totals.prCount} PR
                   </span>
                 </div>
@@ -132,11 +132,11 @@ export function LogSummaryStrip({ totals }: LogSummaryStripProps) {
                 type="button"
                 onClick={handleFinish}
                 disabled={isPending}
-                className="flex w-full items-center justify-center gap-2 rounded-full bg-ink py-3 text-sm font-bold text-white shadow-xs transition-opacity hover:opacity-90 active:scale-95 disabled:opacity-50"
+                className="flex w-full items-center justify-center gap-2 rounded-full bg-ink py-3 text-sm font-bold text-white dark:bg-white dark:text-black dark:hover:bg-neutral-200 shadow-xs transition-all hover:bg-neutral-800 active:scale-95 disabled:opacity-50"
               >
                 {isPending ? (
                   <>
-                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <Loader2 className="h-4 w-4 animate-spin text-white dark:text-black" />
                     <span>Wrapping up…</span>
                   </>
                 ) : (

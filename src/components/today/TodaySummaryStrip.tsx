@@ -80,7 +80,7 @@ export function TodaySummaryStrip({ summary, isFinished }: TodaySummaryStripProp
             <button
               type="button"
               onClick={() => setShowModal(true)}
-              className="flex w-full md:w-auto items-center justify-center gap-2 rounded-full border border-ink bg-mint px-6 py-3 text-sm sm:text-base font-semibold text-ink shadow-sm hover:bg-[#15f5a8] active:scale-95 transition-all cursor-pointer min-h-[44px]"
+              className="flex w-full md:w-auto items-center justify-center gap-2 rounded-full border border-black dark:border-mint/80 bg-mint px-6 py-3 text-sm sm:text-base font-bold text-black shadow-sm hover:bg-[#15f5a8] active:scale-95 transition-all cursor-pointer min-h-[44px]"
             >
               <CheckCircle2 className="h-4 w-4 stroke-[2.5]" />
               <span>{isFinished ? 'Workout finished' : 'Finish workout'}</span>
@@ -100,7 +100,7 @@ export function TodaySummaryStrip({ summary, isFinished }: TodaySummaryStripProp
           <div className="w-full max-w-md rounded-[28px] border border-hairline bg-canvas p-6 sm:p-8 shadow-xl animate-in fade-in zoom-in-95 duration-150">
             <div className="flex items-center justify-between pb-3 border-b border-hairline">
               <div className="flex items-center gap-2">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-mint text-ink font-bold">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-mint text-black font-bold">
                   <CheckCircle2 className="h-4 w-4 stroke-[2.5]" />
                 </div>
                 <h3 id="finish-modal-title" className="font-display text-xl font-bold text-ink">
@@ -151,11 +151,11 @@ export function TodaySummaryStrip({ summary, isFinished }: TodaySummaryStripProp
                 type="button"
                 onClick={handleFinish}
                 disabled={isPending}
-                className="flex items-center gap-2 rounded-full border border-ink bg-mint px-5 py-2.5 text-sm font-semibold text-ink shadow-xs hover:bg-[#15f5a8] transition-all cursor-pointer min-h-[40px]"
+                className="flex items-center gap-2 rounded-full border border-black dark:border-mint/80 bg-mint px-5 py-2.5 text-sm font-bold text-black shadow-xs hover:bg-[#15f5a8] transition-all cursor-pointer min-h-[40px]"
               >
                 {isPending ? (
                   <>
-                    <Loader2 className="h-4 w-4 animate-spin text-ink" />
+                    <Loader2 className="h-4 w-4 animate-spin text-black" />
                     <span>Saving...</span>
                   </>
                 ) : (

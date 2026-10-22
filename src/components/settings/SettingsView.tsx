@@ -11,9 +11,13 @@ import {
   Shield,
   Loader2,
   X,
+  Sun,
+  Moon,
+  Monitor,
 } from 'lucide-react'
 import clsx from 'clsx'
 import { signOutAction } from '@/lib/actions/auth'
+import { useTheme } from '@/components/theme/ThemeProvider'
 import {
   addCustomExerciseAction,
   updateExerciseSettingsAction,
@@ -121,6 +125,8 @@ export function SettingsView({ data }: SettingsViewProps) {
     })
   }
 
+  const { theme, setTheme } = useTheme()
+
   return (
     <div className="space-y-6">
       {/* Account & Default Gym Card */}
@@ -147,6 +153,60 @@ export function SettingsView({ data }: SettingsViewProps) {
           </button>
         </div>
 
+        {/* Theme Appearance Selector */}
+        <div className="border-t border-hairline/80 pt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-secondary">
+              Theme Appearance
+            </h3>
+            <p className="text-xs text-secondary mt-0.5">
+              Choose light, dark, or sync with your system preference.
+            </p>
+          </div>
+
+          <div className="inline-flex rounded-full border border-hairline bg-surface-soft p-1">
+            <button
+              type="button"
+              onClick={() => setTheme('light')}
+              className={clsx(
+                'flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold transition-all cursor-pointer min-h-[30px]',
+                theme === 'light'
+                  ? 'bg-ink text-white dark:bg-white dark:text-black shadow-xs'
+                  : 'text-secondary hover:text-ink'
+              )}
+            >
+              <Sun className="h-3.5 w-3.5" />
+              <span>Light</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setTheme('dark')}
+              className={clsx(
+                'flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold transition-all cursor-pointer min-h-[30px]',
+                theme === 'dark'
+                  ? 'bg-ink text-white dark:bg-white dark:text-black shadow-xs'
+                  : 'text-secondary hover:text-ink'
+              )}
+            >
+              <Moon className="h-3.5 w-3.5" />
+              <span>Dark</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setTheme('system')}
+              className={clsx(
+                'flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold transition-all cursor-pointer min-h-[30px]',
+                theme === 'system'
+                  ? 'bg-ink text-white dark:bg-white dark:text-black shadow-xs'
+                  : 'text-secondary hover:text-ink'
+              )}
+            >
+              <Monitor className="h-3.5 w-3.5" />
+              <span>System</span>
+            </button>
+          </div>
+        </div>
+
         {/* Default Gym Selection */}
         <div className="border-t border-hairline/80 pt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
@@ -163,9 +223,9 @@ export function SettingsView({ data }: SettingsViewProps) {
               type="button"
               onClick={() => handleSetDefaultGym('home')}
               className={clsx(
-                'rounded-full px-4 py-1.5 text-xs font-bold transition-all',
+                'rounded-full px-4 py-1.5 text-xs font-bold transition-all cursor-pointer min-h-[30px]',
                 data.activeGym === 'home'
-                  ? 'bg-ink text-white shadow-xs'
+                  ? 'bg-ink text-white dark:bg-white dark:text-black shadow-xs'
                   : 'text-secondary hover:text-ink'
               )}
             >
@@ -175,9 +235,9 @@ export function SettingsView({ data }: SettingsViewProps) {
               type="button"
               onClick={() => handleSetDefaultGym('college')}
               className={clsx(
-                'rounded-full px-4 py-1.5 text-xs font-bold transition-all',
+                'rounded-full px-4 py-1.5 text-xs font-bold transition-all cursor-pointer min-h-[30px]',
                 data.activeGym === 'college'
-                  ? 'bg-ink text-white shadow-xs'
+                  ? 'bg-ink text-white dark:bg-white dark:text-black shadow-xs'
                   : 'text-secondary hover:text-ink'
               )}
             >
@@ -203,7 +263,7 @@ export function SettingsView({ data }: SettingsViewProps) {
           <button
             type="button"
             onClick={() => setAddModalOpen(true)}
-            className="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-xs font-bold text-white shadow-xs transition-opacity hover:opacity-90 active:scale-95 self-start sm:self-auto"
+            className="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-xs font-bold text-white dark:bg-white dark:text-black dark:hover:bg-neutral-200 shadow-xs transition-all hover:bg-neutral-800 active:scale-95 self-start sm:self-auto"
           >
             <Plus className="h-3.5 w-3.5" />
             <span>Add exercise</span>
@@ -218,7 +278,7 @@ export function SettingsView({ data }: SettingsViewProps) {
             className={clsx(
               'rounded-full px-3.5 py-1.5 text-xs font-bold transition-all',
               gymTab === 'home'
-                ? 'bg-ink text-white shadow-xs'
+                ? 'bg-ink text-white dark:bg-white dark:text-black shadow-xs'
                 : 'border border-hairline text-secondary hover:text-ink'
             )}
           >
@@ -230,7 +290,7 @@ export function SettingsView({ data }: SettingsViewProps) {
             className={clsx(
               'rounded-full px-3.5 py-1.5 text-xs font-bold transition-all',
               gymTab === 'college'
-                ? 'bg-ink text-white shadow-xs'
+                ? 'bg-ink text-white dark:bg-white dark:text-black shadow-xs'
                 : 'border border-hairline text-secondary hover:text-ink'
             )}
           >
@@ -444,7 +504,7 @@ export function SettingsView({ data }: SettingsViewProps) {
                 <button
                   type="submit"
                   disabled={isPending}
-                  className="flex w-full items-center justify-center gap-2 rounded-full bg-ink py-3 text-sm font-bold text-white shadow-xs hover:opacity-90 active:scale-95 disabled:opacity-50"
+                  className="flex w-full items-center justify-center gap-2 rounded-full bg-ink py-3 text-sm font-bold text-white dark:bg-white dark:text-black dark:hover:bg-neutral-200 shadow-xs hover:bg-neutral-800 active:scale-95 disabled:opacity-50"
                 >
                   {isPending ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
@@ -549,7 +609,7 @@ export function SettingsView({ data }: SettingsViewProps) {
                 <button
                   type="submit"
                   disabled={isPending}
-                  className="flex w-full items-center justify-center gap-2 rounded-full bg-ink py-3 text-sm font-bold text-white shadow-xs hover:opacity-90 active:scale-95 disabled:opacity-50"
+                  className="flex w-full items-center justify-center gap-2 rounded-full bg-ink py-3 text-sm font-bold text-white dark:bg-white dark:text-black dark:hover:bg-neutral-200 shadow-xs hover:bg-neutral-800 active:scale-95 disabled:opacity-50"
                 >
                   {isPending ? (
                     <Loader2 className="h-4 w-4 animate-spin" />

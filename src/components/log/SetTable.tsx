@@ -236,7 +236,7 @@ export function SetTable({
               className={clsx(
                 'flex items-center gap-1 rounded-full px-3 py-1 text-xs font-bold transition-all',
                 unit === 'kg'
-                  ? 'bg-ink text-white shadow-xs'
+                  ? 'bg-ink text-white dark:bg-white dark:text-black shadow-xs'
                   : 'text-secondary hover:text-ink'
               )}
             >
@@ -249,7 +249,7 @@ export function SetTable({
               className={clsx(
                 'flex items-center gap-1 rounded-full px-3 py-1 text-xs font-bold transition-all',
                 unit === 'plates'
-                  ? 'bg-ink text-white shadow-xs'
+                  ? 'bg-ink text-white dark:bg-white dark:text-black shadow-xs'
                   : 'text-secondary hover:text-ink'
               )}
             >
@@ -315,7 +315,7 @@ export function SetTable({
                   {hasPr && (
                     <div
                       title={prResult.prLabels.join(' · ')}
-                      className="mt-1 flex items-center justify-center rounded-full bg-mint px-1 py-0.2 text-[9px] font-black uppercase text-ink shadow-2xs cursor-help animate-pulse"
+                      className="mt-1 flex items-center justify-center rounded-full bg-mint px-1 py-0.2 text-[9px] font-black uppercase text-black shadow-2xs cursor-help animate-pulse"
                     >
                       PR
                     </div>
@@ -401,8 +401,8 @@ export function SetTable({
                     className={clsx(
                       'flex h-9 w-9 items-center justify-center rounded-xl transition-all active:scale-95',
                       row.isSaved
-                        ? 'bg-mint text-ink font-bold shadow-xs'
-                        : 'border border-hairline bg-surface-soft text-secondary hover:bg-ink hover:text-white',
+                        ? 'bg-mint text-black font-bold shadow-xs'
+                        : 'border border-hairline bg-surface-soft text-secondary hover:bg-ink hover:text-white dark:hover:bg-white dark:hover:text-black',
                       row.isPending && 'opacity-60 cursor-wait'
                     )}
                     aria-label={row.isSaved ? 'Set completed' : 'Save set'}

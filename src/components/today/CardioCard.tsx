@@ -77,7 +77,7 @@ export function CardioCard({ gym, cardioLogs }: CardioCardProps) {
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-1.5 rounded-full bg-ink px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-white shadow-xs hover:bg-neutral-800 transition-all cursor-pointer min-h-[36px]"
+          className="flex items-center gap-1.5 rounded-full bg-ink px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-white dark:bg-white dark:text-black dark:hover:bg-neutral-200 shadow-xs hover:bg-neutral-800 transition-all cursor-pointer min-h-[36px]"
         >
           <Plus className="h-4 w-4" />
           <span>{isOpen ? 'Close' : 'Log cardio'}</span>
@@ -95,7 +95,7 @@ export function CardioCard({ gym, cardioLogs }: CardioCardProps) {
           {formState?.error && (
             <div
               role="alert"
-              className="rounded-lg border border-red-200 bg-red-50 p-2.5 text-xs font-semibold text-red-800"
+              className="rounded-lg border border-red-200 bg-red-50 dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-300 p-2.5 text-xs font-semibold text-red-800"
             >
               {formState.error}
             </div>
@@ -188,11 +188,11 @@ export function CardioCard({ gym, cardioLogs }: CardioCardProps) {
             <button
               type="submit"
               disabled={isPending}
-              className="flex items-center gap-1.5 rounded-full bg-ink px-5 py-2 text-xs sm:text-sm font-semibold text-white shadow-xs hover:bg-neutral-800 disabled:opacity-60 transition-all cursor-pointer min-h-[38px]"
+              className="flex items-center gap-1.5 rounded-full bg-ink px-5 py-2 text-xs sm:text-sm font-semibold text-white dark:bg-white dark:text-black dark:hover:bg-neutral-200 shadow-xs hover:bg-neutral-800 disabled:opacity-60 transition-all cursor-pointer min-h-[38px]"
             >
               {isPending ? (
                 <>
-                  <Loader2 className="h-4 w-4 animate-spin text-white" />
+                  <Loader2 className="h-4 w-4 animate-spin text-white dark:text-black" />
                   <span>Logging...</span>
                 </>
               ) : (
@@ -231,7 +231,7 @@ export function CardioCard({ gym, cardioLogs }: CardioCardProps) {
                   disabled={isDeleting}
                   title="Delete cardio entry"
                   aria-label="Delete cardio entry"
-                  className="flex h-7 w-7 items-center justify-center rounded-full text-muted hover:bg-white hover:text-red-600 transition-colors cursor-pointer"
+                  className="flex h-7 w-7 items-center justify-center rounded-full text-muted hover:bg-surface-soft hover:text-red-500 transition-colors cursor-pointer"
                 >
                   <Trash2 className="h-3.5 w-3.5" />
                 </button>

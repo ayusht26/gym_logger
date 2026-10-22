@@ -66,7 +66,7 @@ export function AddWeightModal({
       <div className="w-full max-w-sm rounded-[28px] border border-hairline bg-canvas p-6 shadow-xl animate-in fade-in-50 zoom-in-95">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-mint text-ink font-bold shadow-2xs">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-mint text-black font-bold shadow-2xs">
               <Scale className="h-5 w-5 stroke-[2.2]" />
             </div>
             <h3 className="font-heading text-xl font-bold text-ink">
@@ -142,11 +142,11 @@ export function AddWeightModal({
             <button
               type="submit"
               disabled={isPending}
-              className="flex w-full items-center justify-center gap-2 rounded-full bg-ink py-3 text-sm font-bold text-white shadow-xs hover:opacity-90 active:scale-95 disabled:opacity-50"
+              className="flex w-full items-center justify-center gap-2 rounded-full bg-ink py-3 text-sm font-bold text-white dark:bg-white dark:text-black dark:hover:bg-neutral-200 shadow-xs hover:bg-neutral-800 active:scale-95 disabled:opacity-50"
             >
               {isPending ? (
                 <>
-                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <Loader2 className="h-4 w-4 animate-spin text-white dark:text-black" />
                   <span>Saving…</span>
                 </>
               ) : (

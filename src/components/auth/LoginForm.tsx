@@ -10,7 +10,7 @@ export function LoginForm() {
   return (
     <div className="w-full max-w-[420px] rounded-[24px] border border-hairline bg-canvas p-6 sm:p-8 shadow-sm">
       <div className="mb-8 flex flex-col items-center text-center">
-        <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-mint text-ink font-bold shadow-sm">
+        <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-mint text-black font-bold shadow-sm">
           <Dumbbell className="h-6 w-6 stroke-[2.5]" />
         </div>
         <h1 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
@@ -24,7 +24,7 @@ export function LoginForm() {
       {state?.error && (
         <div
           role="alert"
-          className="mb-5 rounded-[12px] border border-red-200 bg-red-50 p-3 text-sm font-medium text-red-800"
+          className="mb-5 rounded-[12px] border border-red-200 bg-red-50 dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-300 p-3 text-sm font-medium text-red-800"
         >
           {state.error}
         </div>
@@ -71,11 +71,11 @@ export function LoginForm() {
           <button
             type="submit"
             disabled={isPending}
-            className="flex w-full items-center justify-center gap-2 rounded-full bg-ink px-6 py-3.5 text-[16px] font-semibold text-white shadow-sm transition-transform active:scale-[0.98] hover:bg-neutral-800 disabled:opacity-60 cursor-pointer min-h-[48px]"
+            className="flex w-full items-center justify-center gap-2 rounded-full bg-ink px-6 py-3.5 text-[16px] font-semibold text-white dark:bg-white dark:text-black dark:hover:bg-neutral-200 shadow-sm transition-transform active:scale-[0.98] hover:bg-neutral-800 disabled:opacity-60 cursor-pointer min-h-[48px]"
           >
             {isPending ? (
               <>
-                <Loader2 className="h-5 w-5 animate-spin text-white" />
+                <Loader2 className="h-5 w-5 animate-spin text-white dark:text-black" />
                 <span>Signing in...</span>
               </>
             ) : (

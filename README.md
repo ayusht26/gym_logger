@@ -34,6 +34,12 @@ A personal, single-user workout and body weight tracker engineered for mobile gy
   - Add custom exercises, machine models, plate weights, and bar weights.
   - Archive/unarchive exercises to keep the active routine clean.
   - Default gym selection and authenticated sign-out.
+- **Dark Mode & Dynamic Theme Engine**:
+  - Full high-contrast Dark Theme with electric spring-mint `#00f0a0` highlights and obsidian canvas `#090a0f`.
+  - 1-tap Theme Toggle in the header (`AppHeader`) and login screen.
+  - Granular **Light / Dark / System** preference selector in Settings (`/settings`).
+  - Zero-flicker blocking script in root layout to eliminate theme flash (FOUT).
+  - Dark-adapted Recharts charts (mint trendlines, muted grids, elevated dark tooltips).
 - **Progressive Web App (PWA)**:
   - Installable standalone app on iOS and Android via `manifest.ts` with spring-mint theme colors.
 

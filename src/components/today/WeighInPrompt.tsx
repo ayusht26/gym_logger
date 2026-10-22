@@ -51,7 +51,7 @@ export function WeighInPrompt({
       >
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="flex items-start gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-mint text-ink font-bold shadow-2xs">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-mint text-black font-bold shadow-2xs">
               <Scale className="h-5 w-5 stroke-[2.2]" />
             </div>
 
@@ -82,7 +82,7 @@ export function WeighInPrompt({
             <button
               type="button"
               onClick={() => setModalOpen(true)}
-              className="inline-flex items-center gap-1.5 rounded-full bg-ink px-4 py-2 text-xs font-bold text-white shadow-xs transition-opacity hover:opacity-90 active:scale-95"
+              className="inline-flex items-center gap-1.5 rounded-full bg-ink px-4 py-2 text-xs font-bold text-white dark:bg-white dark:text-black dark:hover:bg-neutral-200 shadow-xs transition-all hover:bg-neutral-800 active:scale-95"
             >
               <span>Log weight</span>
               <ArrowRight className="h-3.5 w-3.5" />

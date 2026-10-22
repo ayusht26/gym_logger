@@ -89,7 +89,7 @@ export function BodyWeightHero({ data }: BodyWeightHeroProps) {
           <button
             type="button"
             onClick={() => setModalOpen(true)}
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-ink px-5 py-3 text-sm font-bold text-white shadow-xs transition-transform hover:opacity-90 active:scale-95 shrink-0"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-ink px-5 py-3 text-sm font-bold text-white dark:bg-white dark:text-black dark:hover:bg-neutral-200 shadow-xs transition-all hover:bg-neutral-800 active:scale-95 shrink-0"
           >
             <Plus className="h-4 w-4" />
             <span>Add weight</span>

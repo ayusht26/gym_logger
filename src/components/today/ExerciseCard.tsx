@@ -56,7 +56,7 @@ export function ExerciseCard({ exercise, priority = false }: ExerciseCardProps) 
           {exercise.loggedToday && (
             <div
               title="Logged today"
-              className="absolute top-2 right-2 flex h-6 w-6 items-center justify-center rounded-full bg-mint text-ink font-extrabold shadow-xs"
+              className="absolute top-2 right-2 flex h-6 w-6 items-center justify-center rounded-full bg-mint text-black font-extrabold shadow-xs"
             >
               <Check className="h-3.5 w-3.5 stroke-[3]" />
             </div>
@@ -72,7 +72,7 @@ export function ExerciseCard({ exercise, priority = false }: ExerciseCardProps) 
         </div>
 
         {/* Name and Machine Model */}
-        <h3 className="font-sans text-sm sm:text-base font-bold text-ink leading-snug line-clamp-2 group-hover:text-neutral-700">
+        <h3 className="font-sans text-sm sm:text-base font-bold text-ink leading-snug line-clamp-2 group-hover:text-mint transition-colors">
           {exercise.name}
         </h3>
 
