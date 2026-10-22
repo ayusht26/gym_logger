@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@theme {
+  --color-mint: #00f0a0;
+  --color-primary: #00f0a0;
+  --color-ink: #000000;
+  --color-canvas: #ffffff;
+  --color-canvas-mint: #ecffe0;
+  --color-surface-soft: #f2f4f5;
+  --color-hairline: #e5e7eb;
+  --color-muted: #86909c;
+  --color-secondary: #5b6573;
+
+  --font-display: var(--font-titillium-web), sans-serif;
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 28px;
+  --radius-pill-nav: 18px;
+  --radius-pill: 36px;
+  --radius-card: 40px;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #000000;
+}
+
+html,
+body {
+  background-color: #ffffff;
+  color: #000000;
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100%;
+}
+
+/* Accessible focus ring: 2px ink with 2px offset */
+*:focus-visible {
+  outline: 2px solid #000000;
+  outline-offset: 2px;
+}
+
+/* Mobile tap ergonomics: prevent zoom on inputs by ensuring >= 16px */
+input,
+select,
+textarea {
+  font-size: 16px;
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Safe area padding utilities */
+.pb-safe {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
+
+.pt-safe {
+  padding-top: max(0.5rem, env(safe-area-inset-top));
+}
