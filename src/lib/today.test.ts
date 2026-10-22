@@ -56,6 +56,28 @@ describe('today.ts - Routine exercise selection by weekday and gym', () => {
     expect(slugs).toContain('tricep-pushdown')
   })
 
+  it('correctly maps Wednesday (Legs + Shoulders) exercises for Home gym including leg-curl', () => {
+    // 2026-10-21 is Wednesday
+    const { routine, exercises } = getRoutineExercisesForDate(
+      DEFAULT_EXERCISES,
+      '2026-10-21',
+      'home'
+    )
+
+    expect(routine.splitKey).toBe('legs_shoulders')
+    expect(routine.muscleGroups).toEqual(['legs', 'shoulders'])
+    expect(exercises.length).toBeGreaterThan(0)
+
+    const slugs = exercises.map((e) => e.slug)
+    expect(slugs).toContain('leg-curl')
+    expect(slugs).toContain('leg-extension')
+    expect(slugs).toContain('leg-press')
+    expect(slugs).toContain('shoulder-press-machine')
+
+    const legCurl = exercises.find((e) => e.slug === 'leg-curl')
+    expect(legCurl?.image_path).toBe('/machines/home/leg-extension-curl.webp')
+  })
+
   it('correctly handles Sunday (Rest Day) by default and supports "Train anyway" override', () => {
     // 2026-10-18 is Sunday
     const sundayDefault = getRoutineExercisesForDate(
