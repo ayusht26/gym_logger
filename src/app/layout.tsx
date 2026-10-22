@@ -17,7 +17,10 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Gym Logger',
+  title: {
+    default: 'Gym Logger',
+    template: '%s · Gym Logger',
+  },
   description: 'Personal single-user workout and progress tracker',
 }
 

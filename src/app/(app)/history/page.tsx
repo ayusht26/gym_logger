@@ -1,23 +1,26 @@
-import { History } from 'lucide-react'
+import { getHistoryPageData } from '@/lib/data/history'
+import { HistoryList } from '@/components/history/HistoryList'
 
-export default function HistoryPage() {
+export const metadata = {
+  title: 'Workout History · Gym Logger',
+  description: 'Past workout sessions, training log, and lifted volume archives',
+}
+
+export default async function HistoryPage() {
+  const data = await getHistoryPageData()
+
   return (
-    <div className="space-y-6">
-      <div className="rounded-[24px] border border-hairline bg-canvas p-6 sm:p-8 shadow-xs">
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-mint/30 text-ink">
-            <History className="h-5 w-5 stroke-[2.5]" />
-          </div>
-          <div>
-            <h1 className="font-display text-2xl sm:text-3xl font-bold text-ink">
-              Workout History
-            </h1>
-            <p className="text-xs sm:text-sm font-medium text-secondary">
-              Past sessions, sets, and cardio log review (Phase 5)
-            </p>
-          </div>
-        </div>
+    <div className="mx-auto max-w-3xl pb-24 pt-4 sm:pt-6 space-y-6">
+      <div>
+        <h1 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-ink">
+          Workout History
+        </h1>
+        <p className="mt-1 text-xs sm:text-sm font-medium text-secondary">
+          Month-by-month log of your completed training sessions and lifted volume.
+        </p>
       </div>
+
+      <HistoryList data={data} />
     </div>
   )
 }
