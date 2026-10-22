@@ -1,23 +1,29 @@
-import { Scale } from 'lucide-react'
+import { getBodyWeightData } from '@/lib/data/body'
+import { BodyWeightHero } from '@/components/body/BodyWeightHero'
+import { BodyWeightChart } from '@/components/body/BodyWeightChart'
+import { BodyWeightHistory } from '@/components/body/BodyWeightHistory'
 
-export default function BodyPage() {
+export const metadata = {
+  title: 'Body Weight · Gym Logger',
+  description: 'Twice-monthly body weight tracking and progression charts',
+}
+
+export default async function BodyWeightPage() {
+  const data = await getBodyWeightData()
+
   return (
-    <div className="space-y-6">
-      <div className="rounded-[24px] border border-hairline bg-canvas p-6 sm:p-8 shadow-xs">
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-mint/30 text-ink">
-            <Scale className="h-5 w-5 stroke-[2.5]" />
-          </div>
-          <div>
-            <h1 className="font-display text-2xl sm:text-3xl font-bold text-ink">
-              Body Weight Tracking
-            </h1>
-            <p className="text-xs sm:text-sm font-medium text-secondary">
-              Bi-monthly weigh-in charts and history (Phase 4)
-            </p>
-          </div>
-        </div>
-      </div>
+    <div className="mx-auto max-w-4xl pb-24 pt-4 sm:pt-6">
+      {/* Hero Overview */}
+      <BodyWeightHero data={data} />
+
+      {/* Recharts Progression Line Chart */}
+      <BodyWeightChart weights={data.weightsChronological} />
+
+      {/* History List with Edit/Delete */}
+      <BodyWeightHistory
+        weights={data.weightsRecent}
+        todayStr={data.todayStr}
+      />
     </div>
   )
 }

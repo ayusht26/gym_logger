@@ -6,6 +6,7 @@ import { OneGymBanner } from '@/components/today/OneGymBanner'
 import { ExerciseGrid } from '@/components/today/ExerciseGrid'
 import { CardioCard } from '@/components/today/CardioCard'
 import { TodaySummaryStrip } from '@/components/today/TodaySummaryStrip'
+import { WeighInPrompt } from '@/components/today/WeighInPrompt'
 import clsx from 'clsx'
 import { Calendar, Flame, Moon } from 'lucide-react'
 
@@ -24,6 +25,14 @@ export default async function TodayPage() {
           sessionGym={data.otherGymSession}
         />
       )}
+
+      {/* 2. Twice-Monthly Weigh-In Due Prompt */}
+      <WeighInPrompt
+        isDue={data.weighInDue}
+        isTrainingDay={!routine.isRest}
+        periodHalf={data.periodHalf}
+        todayStr={data.todayStr}
+      />
 
       {/* 2. Today Split Hero Header */}
       <section

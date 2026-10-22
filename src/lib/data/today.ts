@@ -8,6 +8,7 @@ import {
   type WeightUnit,
 } from '@/lib/catalog'
 import type { MuscleGroup } from '@/lib/routine'
+import { isWeighInDue, getPeriodKey, getPeriodInfo } from '@/lib/weighin'
 import type { Database } from '@/types/database'
 
 type ExerciseRow = Database['public']['Tables']['exercises']['Row']
@@ -35,6 +36,8 @@ export interface TodayPageData {
     durationMin: number
     prsCount: number
   }
+  weighInDue: boolean
+  periodHalf: string
   userAuthenticated: boolean
 }
 
@@ -71,6 +74,8 @@ export async function getTodayData(gym: GymType): Promise<TodayPageData> {
         durationMin: 0,
         prsCount: 0,
       },
+      weighInDue: false,
+      periodHalf: 'B',
       userAuthenticated: false,
     }
   }
@@ -205,6 +210,17 @@ export async function getTodayData(gym: GymType): Promise<TodayPageData> {
     durationMin = Math.max(1, Math.round((end.getTime() - start.getTime()) / (60 * 1000)))
   }
 
+  // Calculate weigh-in prompt due status
+  const { data: bodyWeights } = await supabase
+    .from('body_weights')
+    .select('measured_on')
+    .eq('user_id', user.id)
+
+  const loggedDates = (bodyWeights || []).map((b) => b.measured_on)
+  const currentPeriodKey = getPeriodKey(todayStr)
+  const currentPeriodInfo = getPeriodInfo(currentPeriodKey)
+  const weighInDue = isWeighInDue(todayStr, loggedDates)
+
   return {
     todayStr,
     activeGym: gym,
@@ -218,6 +234,8 @@ export async function getTodayData(gym: GymType): Promise<TodayPageData> {
       durationMin,
       prsCount: 0, // PR engine connects in Phase 3
     },
+    weighInDue,
+    periodHalf: currentPeriodInfo.half,
     userAuthenticated: true,
   }
 }
