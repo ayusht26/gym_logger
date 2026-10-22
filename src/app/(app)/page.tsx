@@ -1,19 +1,35 @@
-import { getTodayIST, formatDateDisplay } from '@/lib/time'
-import { getRoutineForDate, getMuscleGroupDisplayName } from '@/lib/routine'
 import { getActiveGym } from '@/lib/actions/gym'
+import { getTodayData } from '@/lib/data/today'
+import { getRoutineForDate } from '@/lib/routine'
+import { formatDateDisplay } from '@/lib/time'
+import { OneGymBanner } from '@/components/today/OneGymBanner'
+import { ExerciseGrid } from '@/components/today/ExerciseGrid'
+import { CardioCard } from '@/components/today/CardioCard'
+import { TodaySummaryStrip } from '@/components/today/TodaySummaryStrip'
 import clsx from 'clsx'
-import { Dumbbell, Flame, Calendar, Sparkles } from 'lucide-react'
+import { Calendar, Flame, Moon } from 'lucide-react'
 
 export default async function TodayPage() {
   const activeGym = await getActiveGym()
-  const today = getTodayIST()
-  const formattedDate = formatDateDisplay(today)
-  const routine = getRoutineForDate(today)
+  const data = await getTodayData(activeGym)
+  const routine = getRoutineForDate(data.todayStr)
+  const formattedDate = formatDateDisplay(data.todayStr)
 
   return (
     <div className="space-y-6">
-      {/* Hero Header per DESIGN.md & CONTEXT.md */}
-      <section className="rounded-[28px] border border-hairline bg-canvas-mint p-6 sm:p-8">
+      {/* 1. One Gym Per Day Alert Banner (if trained at the other gym today) */}
+      {data.otherGymSession && (
+        <OneGymBanner
+          currentGym={activeGym}
+          sessionGym={data.otherGymSession}
+        />
+      )}
+
+      {/* 2. Today Split Hero Header */}
+      <section
+        aria-label="Today workout schedule"
+        className="rounded-[28px] border border-hairline bg-canvas-mint p-6 sm:p-8 shadow-xs"
+      >
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <div className="flex items-center gap-2 text-xs sm:text-sm font-semibold uppercase tracking-wider text-secondary">
@@ -29,8 +45,8 @@ export default async function TodayPage() {
 
             <p className="mt-1 text-sm sm:text-base font-medium text-secondary">
               {routine.isRest
-                ? 'Scheduled rest day. Cardio and light recovery available.'
-                : `Targeting: ${routine.muscleGroups.map(getMuscleGroupDisplayName).join(', ')}`}
+                ? 'Scheduled rest day. Cardio, stretching, or custom training available.'
+                : `Targeting: ${routine.muscleGroups.map((g) => g.charAt(0).toUpperCase() + g.slice(1)).join(', ')}`}
             </p>
           </div>
 
@@ -39,68 +55,43 @@ export default async function TodayPage() {
               className={clsx(
                 'inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs sm:text-sm font-bold uppercase tracking-wider',
                 routine.isRest
-                  ? 'bg-surface-soft text-secondary border border-hairline'
-                  : 'bg-mint text-ink border border-ink'
+                  ? 'bg-canvas text-secondary border border-hairline shadow-2xs'
+                  : 'bg-mint text-ink border border-ink shadow-2xs'
               )}
             >
-              <Flame className="h-4 w-4" />
-              {routine.isRest ? 'Rest' : 'Workout Day'}
+              {routine.isRest ? (
+                <>
+                  <Moon className="h-4 w-4" />
+                  <span>Rest</span>
+                </>
+              ) : (
+                <>
+                  <Flame className="h-4 w-4" />
+                  <span>Workout Day</span>
+                </>
+              )}
             </span>
           </div>
         </div>
-
-        {/* Muscle group chips */}
-        {routine.muscleGroups.length > 0 && (
-          <div className="mt-6 flex flex-wrap gap-2 pt-4 border-t border-hairline/60">
-            {routine.muscleGroups.map((group) => (
-              <span
-                key={group}
-                className="inline-flex items-center gap-1 rounded-[12px] bg-canvas px-3 py-1.5 text-xs sm:text-sm font-semibold text-ink border border-hairline shadow-2xs"
-              >
-                <Dumbbell className="h-3.5 w-3.5 text-muted" />
-                {getMuscleGroupDisplayName(group)}
-              </span>
-            ))}
-          </div>
-        )}
       </section>
 
-      {/* Quick session status placeholder for Phase 1 */}
-      <section className="rounded-[24px] border border-hairline bg-canvas p-6 sm:p-8 shadow-xs">
-        <div className="flex items-center justify-between pb-4 border-b border-hairline">
-          <div>
-            <h2 className="font-display text-xl sm:text-2xl font-bold text-ink">
-              Today&apos;s Session
-            </h2>
-            <p className="text-xs sm:text-sm font-medium text-secondary">
-              Phase 1 shell active · Exercises & Cardio engine in Phase 2
-            </p>
-          </div>
-          <span className="flex items-center gap-1 rounded-full bg-surface-soft px-3 py-1 text-xs font-semibold text-secondary">
-            <Sparkles className="h-3.5 w-3.5 text-mint stroke-[2.5]" />
-            Foundation Ready
-          </span>
-        </div>
-
-        <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-4">
-          <div className="rounded-[16px] bg-surface-soft p-4">
-            <span className="text-xs font-medium text-secondary">Completed Sets</span>
-            <p className="mt-1 font-display text-2xl font-bold text-ink">0</p>
-          </div>
-          <div className="rounded-[16px] bg-surface-soft p-4">
-            <span className="text-xs font-medium text-secondary">Total Volume</span>
-            <p className="mt-1 font-display text-2xl font-bold text-ink">0 kg</p>
-          </div>
-          <div className="rounded-[16px] bg-surface-soft p-4">
-            <span className="text-xs font-medium text-secondary">Active PRs</span>
-            <p className="mt-1 font-display text-2xl font-bold text-ink">0</p>
-          </div>
-          <div className="rounded-[16px] bg-surface-soft p-4">
-            <span className="text-xs font-medium text-secondary">Cardio</span>
-            <p className="mt-1 font-display text-2xl font-bold text-ink">0 min</p>
-          </div>
-        </div>
+      {/* 3. Exercise Grid with Search and Muscle Group Chips */}
+      <section aria-label="Exercise catalog and routine">
+        <ExerciseGrid
+          exercises={data.exercises}
+          routineMuscleGroups={routine.muscleGroups}
+          isRestDay={routine.isRest}
+        />
       </section>
+
+      {/* 4. Cardio Card (Available every day on both gyms) */}
+      <CardioCard gym={activeGym} cardioLogs={data.cardioLogs} />
+
+      {/* 5. Today's Workout Summary Strip */}
+      <TodaySummaryStrip
+        summary={data.summary}
+        isFinished={Boolean(data.session?.ended_at)}
+      />
     </div>
   )
 }
